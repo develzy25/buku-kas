@@ -1,6 +1,7 @@
 "use server";
 
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { transaksi, transfer, users, rekening } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -20,7 +21,7 @@ export async function createTransaction(formData: FormData) {
       const dariRekeningId = parseInt(formData.get("dariRekeningId") as string);
       const keRekeningId = parseInt(formData.get("keRekeningId") as string);
       
-      await db.insert(transfer).values({
+      await getDb().insert(transfer).values({
         noTransaksi,
         tanggal,
         dariRekeningId,
@@ -30,7 +31,7 @@ export async function createTransaction(formData: FormData) {
       });
 
       // Juga catat di tabel transaksi agar muncul di riwayat terpadu
-      await db.insert(transaksi).values({
+      await getDb().insert(transaksi).values({
         noTransaksi,
         tanggal,
         rekeningId: dariRekeningId,
@@ -47,7 +48,7 @@ export async function createTransaction(formData: FormData) {
           kategoriId = 1; // Default fallback
       }
 
-      await db.insert(transaksi).values({
+      await getDb().insert(transaksi).values({
         noTransaksi,
         tanggal,
         rekeningId,
@@ -70,9 +71,9 @@ export async function createTransaction(formData: FormData) {
 export async function deleteTransaction(noTransaksi: string) {
   try {
     // Hapus dari tabel transfer (jika ada)
-    await db.delete(transfer).where(eq(transfer.noTransaksi, noTransaksi));
+    await getDb().delete(transfer).where(eq(transfer.noTransaksi, noTransaksi));
     // Hapus dari tabel transaksi
-    await db.delete(transaksi).where(eq(transaksi.noTransaksi, noTransaksi));
+    await getDb().delete(transaksi).where(eq(transaksi.noTransaksi, noTransaksi));
 
     revalidatePath('/');
     revalidatePath('/history');
@@ -96,14 +97,14 @@ export async function updateTransaction(formData: FormData) {
     const tanggal = new Date(tanggalStr);
 
     // Untuk mempermudah, kita hapus yang lama, lalu masukkan yang baru dengan ID transaksi yang sama.
-    await db.delete(transfer).where(eq(transfer.noTransaksi, noTransaksi));
-    await db.delete(transaksi).where(eq(transaksi.noTransaksi, noTransaksi));
+    await getDb().delete(transfer).where(eq(transfer.noTransaksi, noTransaksi));
+    await getDb().delete(transaksi).where(eq(transaksi.noTransaksi, noTransaksi));
 
     if (tipe === 'Transfer') {
       const dariRekeningId = parseInt(formData.get("dariRekeningId") as string);
       const keRekeningId = parseInt(formData.get("keRekeningId") as string);
       
-      await db.insert(transfer).values({
+      await getDb().insert(transfer).values({
         noTransaksi,
         tanggal,
         dariRekeningId,
@@ -112,7 +113,7 @@ export async function updateTransaction(formData: FormData) {
         keterangan,
       });
 
-      await db.insert(transaksi).values({
+      await getDb().insert(transaksi).values({
         noTransaksi,
         tanggal,
         rekeningId: dariRekeningId,
@@ -126,7 +127,7 @@ export async function updateTransaction(formData: FormData) {
       let kategoriId = parseInt(formData.get("kategoriId") as string);
       if (isNaN(kategoriId)) kategoriId = 1;
 
-      await db.insert(transaksi).values({
+      await getDb().insert(transaksi).values({
         noTransaksi,
         tanggal,
         rekeningId,
@@ -158,7 +159,7 @@ export async function loginAction(formData: FormData) {
       return { success: true };
     }
 
-    const userList = await db.select().from(users).where(eq(users.username, username));
+    const userList = await getDb().select().from(users).where(eq(users.username, username));
     if (userList.length > 0) {
        const user = userList[0];
        if (user.password === password) {
@@ -184,7 +185,7 @@ export async function createRekening(formData: FormData) {
     const namaRekening = formData.get("namaRekening") as string;
     const jenis = formData.get("jenis") as string;
 
-    await db.insert(rekening).values({
+    await getDb().insert(rekening).values({
       namaRekening,
       jenis,
     });
@@ -202,12 +203,12 @@ export async function createRekening(formData: FormData) {
 export async function deleteRekening(id: number) {
   try {
     // Cek apakah ada transaksi yang terkait dengan rekening ini
-    const trxList = await db.select().from(transaksi).where(eq(transaksi.rekeningId, id));
+    const trxList = await getDb().select().from(transaksi).where(eq(transaksi.rekeningId, id));
     if (trxList.length > 0) {
       return { success: false, error: "Rekening tidak bisa dihapus karena masih memiliki riwayat transaksi." };
     }
 
-    await db.delete(rekening).where(eq(rekening.id, id));
+    await getDb().delete(rekening).where(eq(rekening.id, id));
 
     revalidatePath('/rekening');
     revalidatePath('/report');
@@ -221,9 +222,9 @@ export async function deleteRekening(id: number) {
 
 export async function resetAllData() {
   try {
-    await db.delete(transfer);
-    await db.delete(transaksi);
-    await db.update(rekening).set({ saldoAwal: 0 });
+    await getDb().delete(transfer);
+    await getDb().delete(transaksi);
+    await getDb().update(rekening).set({ saldoAwal: 0 });
     
     revalidatePath('/');
     revalidatePath('/history');

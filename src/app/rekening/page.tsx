@@ -1,4 +1,5 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { rekening } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faBuilding } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +9,7 @@ import RekeningList from "@/components/RekeningList"; // refresh imports
 export const dynamic = 'force-dynamic';
 
 export default async function RekeningPage() {
-  const rekenings = await db.select().from(rekening);
+  const rekenings = await getDb().select().from(rekening);
 
   return (
     <main className="min-h-screen pb-24 md:p-4 bg-gray-50">

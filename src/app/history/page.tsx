@@ -1,4 +1,5 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faExchangeAlt, faFilter } from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +7,7 @@ import { desc } from "drizzle-orm";
 import TransactionActions from "@/components/TransactionActions";
 
 export default async function HistoryPage() {
-  const transaksis = await db.select().from(transaksi).orderBy(desc(transaksi.tanggal));
+  const transaksis = await getDb().select().from(transaksi).orderBy(desc(transaksi.tanggal));
 
   const formatRupiah = (angka: number) => {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(angka);

@@ -1,0 +1,8 @@
+name = "buku-kas"
+compatibility_date = "2024-06-30"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "buku-kas"
+database_id = "dd784666-c1f4-4cfb-b94c-3c49b797e3d9"

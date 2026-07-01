@@ -1,4 +1,5 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { rekening, kategori } from "@/db/schema";
 import TransactionForm from "@/components/TransactionForm";
 import { createTransaction } from "@/app/actions";
@@ -24,8 +25,8 @@ export default async function TransactionPage({ params }: { params: Promise<{ ty
   const title = `Tambah ${type}`;
   
   // Fetch master data
-  const rekenings = await db.select().from(rekening);
-  const kategoris = await db.select().from(kategori);
+  const rekenings = await getDb().select().from(rekening);
+  const kategoris = await getDb().select().from(kategori);
 
   return (
     <TransactionForm 

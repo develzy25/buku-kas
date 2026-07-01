@@ -1,12 +1,13 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { rekening, transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet, faPiggyBank, faHandHoldingUsd, faArrowUp, faArrowDown, faHistory } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default async function Dashboard() {
-  const rekenings = await db.select().from(rekening);
-  const transaksis = await db.select().from(transaksi);
+  const rekenings = await getDb().select().from(rekening);
+  const transaksis = await getDb().select().from(transaksi);
   
   const titipanRekening = rekenings.filter(r => r.jenis === 'Titipan');
   const totalTitipanAwal = titipanRekening.reduce((acc, curr) => acc + curr.saldoAwal, 0);

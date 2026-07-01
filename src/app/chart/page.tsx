@@ -1,12 +1,13 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { transaksi, kategori } from "@/db/schema";
 import { PieChart } from "@/components/ChartWrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartPie } from "@fortawesome/free-solid-svg-icons";
 
 export default async function ChartPage() {
-  const transaksis = await db.select().from(transaksi);
-  const kategoris = await db.select().from(kategori);
+  const transaksis = await getDb().select().from(transaksi);
+  const kategoris = await getDb().select().from(kategori);
 
   // Filter pengeluaran
   const pengeluaran = transaksis.filter(t => t.tipe === 'Pengeluaran');

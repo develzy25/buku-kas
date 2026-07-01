@@ -1,12 +1,13 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { rekening, transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faHandHoldingUsd, faWallet } from "@fortawesome/free-solid-svg-icons";
 import ExportButtons from "@/components/ExportButtons";
 
 export default async function ReportPage() {
-  const rekenings = await db.select().from(rekening);
-  const transaksis = await db.select().from(transaksi);
+  const rekenings = await getDb().select().from(rekening);
+  const transaksis = await getDb().select().from(transaksi);
 
   // Calculate balances per rekening
   const rekeningBalances = rekenings.map(rek => {

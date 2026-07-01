@@ -1,4 +1,5 @@
-import { db } from "@/db";
+export const runtime = 'edge';
+import { getDb } from "@/db";
 import { rekening, kategori, transaksi, transfer } from "@/db/schema";
 import TransactionForm from "@/components/TransactionForm";
 import { updateTransaction } from "@/app/actions";
@@ -11,10 +12,10 @@ export default async function EditTransactionPage(
   const params = await props.params;
   const decodeNoTransaksi = decodeURIComponent(params.noTransaksi);
   
-  const rekenings = await db.select().from(rekening);
-  const kategoris = await db.select().from(kategori);
+  const rekenings = await getDb().select().from(rekening);
+  const kategoris = await getDb().select().from(kategori);
 
-  const trxList = await db.select().from(transaksi).where(eq(transaksi.noTransaksi, decodeNoTransaksi));
+  const trxList = await getDb().select().from(transaksi).where(eq(transaksi.noTransaksi, decodeNoTransaksi));
   
   if (trxList.length === 0) {
     redirect('/history');
@@ -31,7 +32,7 @@ export default async function EditTransactionPage(
   };
 
   if (isTransfer) {
-    const transferList = await db.select().from(transfer).where(eq(transfer.noTransaksi, decodeNoTransaksi));
+    const transferList = await getDb().select().from(transfer).where(eq(transfer.noTransaksi, decodeNoTransaksi));
     if (transferList.length > 0) {
       defaultValues.dariRekeningId = transferList[0].dariRekeningId;
       defaultValues.keRekeningId = transferList[0].keRekeningId;
