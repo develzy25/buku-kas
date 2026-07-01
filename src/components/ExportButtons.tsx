@@ -3,19 +3,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons/faFileExcel";
 import { faPrint } from "@fortawesome/free-solid-svg-icons/faPrint";
 
-export default function ExportButtons({ data }: { data: { id: number; namaRekening: string; jenis: string; balance: number }[] }) {
+export interface LedgerItem {
+  tanggal: string;
+  rekening: string;
+  jenis: "Masuk" | "Keluar";
+  nominal: number;
+  catatan: string;
+  saldo: number;
+}
+
+export default function ExportButtons({ data }: { data: LedgerItem[] }) {
   const exportCSV = () => {
-    // Generate CSV
-    const headers = ["ID", "Nama Rekening", "Jenis", "Saldo"];
-    const rows = data.map(r => [r.id, r.namaRekening, r.jenis, r.balance]);
-    const csvContent = "data:text/csv;charset=utf-8," 
+    const headers = ["Tanggal Transaksi", "Rekening", "Jenis (Masuk / Keluar)", "Transaksi", "Catatan", "Saldo"];
+    const rows = data.map(r => [
+      r.tanggal,
+      r.rekening,
+      r.jenis,
+      r.nominal,
+      r.catatan,
+      r.saldo
+    ]);
+    
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
         + headers.join(",") + "\n" 
-        + rows.map(e => e.join(",")).join("\n");
+        + rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(",")).join("\n");
         
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "laporan_rekening.csv");
+    link.setAttribute("download", "laporan_transaksi.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -28,7 +44,7 @@ export default function ExportButtons({ data }: { data: { id: number; namaRekeni
         
         // Add Title
         doc.setFontSize(18);
-        doc.text("Laporan Saldo Buku Kas SD", 14, 22);
+        doc.text("Laporan Transaksi Buku Kas SD", 14, 22);
         doc.setFontSize(11);
         doc.setTextColor(100);
         doc.text(`Dicetak pada: ${new Date().toLocaleDateString('id-ID')}`, 14, 30);
@@ -36,19 +52,21 @@ export default function ExportButtons({ data }: { data: { id: number; namaRekeni
         // Add Table
         autoTable(doc, {
           startY: 35,
-          head: [['ID', 'Nama Rekening', 'Jenis', 'Saldo']],
+          head: [['Tanggal Transaksi', 'Rekening', 'Jenis (Masuk / Keluar)', 'Transaksi', 'Catatan', 'Saldo']],
           body: data.map(r => [
-            r.id.toString(), 
-            r.namaRekening, 
-            r.jenis, 
-            `Rp ${r.balance.toLocaleString('id-ID')}`
+            r.tanggal,
+            r.rekening,
+            r.jenis,
+            `Rp ${r.nominal.toLocaleString('id-ID')}`,
+            r.catatan || '-',
+            `Rp ${r.saldo.toLocaleString('id-ID')}`
           ]),
           theme: 'grid',
           headStyles: { fillColor: [41, 128, 185] },
           alternateRowStyles: { fillColor: [245, 245, 245] },
         });
         
-        doc.save("laporan_rekening.pdf");
+        doc.save("laporan_transaksi.pdf");
       });
     });
   };
@@ -64,3 +82,4 @@ export default function ExportButtons({ data }: { data: { id: number; namaRekeni
     </div>
   );
 }
+

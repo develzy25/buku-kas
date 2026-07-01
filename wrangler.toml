@@ -8,3 +8,5 @@ pages_build_output_dir = ".open-next/cloudflare"
 binding = "DB"
 database_name = "buku-kas"
 database_id = "dd784666-c1f4-4cfb-b94c-3c49b797e3d9"
+migrations_dir = "src/db/migrations"
+

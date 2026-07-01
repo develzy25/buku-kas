@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 import { getDb } from "@/db";
-import { rekening, transaksi } from "@/db/schema";
+import { rekening, transaksi, transfer } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
 import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons/faHandHoldingUsd";
@@ -10,8 +10,9 @@ import ExportButtons from "@/components/ExportButtonsDynamic";
 export default async function ReportPage() {
   const rekenings = await getDb().select().from(rekening);
   const transaksis = await getDb().select().from(transaksi);
+  const transfers = await getDb().select().from(transfer);
 
-  // Calculate balances per rekening
+  // Calculate balances per rekening (for UI display)
   const rekeningBalances = rekenings.map(rek => {
     let balance = rek.saldoAwal;
     const trx = transaksis.filter(t => t.rekeningId === rek.id);
@@ -26,6 +27,82 @@ export default async function ReportPage() {
     }
     
     return { ...rek, balance };
+  });
+
+  // Calculate the running transaction ledger for PDF/Excel download
+  const ledgerRows: {
+    tanggal: Date;
+    rekening: string;
+    jenis: "Masuk" | "Keluar";
+    nominal: number;
+    catatan: string;
+  }[] = [];
+
+  for (const t of transaksis) {
+    const rek = rekenings.find(r => r.id === t.rekeningId);
+    const rekName = rek ? rek.namaRekening : `-`;
+    
+    if (t.tipe === 'Transfer') {
+      const tf = transfers.find(x => x.noTransaksi === t.noTransaksi);
+      const destRek = tf ? rekenings.find(r => r.id === tf.keRekeningId) : null;
+      const destRekName = destRek ? destRek.namaRekening : `Rekening ID ${tf?.keRekeningId}`;
+      
+      // Source account (Keluar)
+      ledgerRows.push({
+        tanggal: t.tanggal,
+        rekening: rekName,
+        jenis: "Keluar",
+        nominal: t.nominal,
+        catatan: t.keterangan || `Transfer ke ${destRekName}`
+      });
+      
+      // Destination account (Masuk)
+      ledgerRows.push({
+        tanggal: t.tanggal,
+        rekening: destRekName,
+        jenis: "Masuk",
+        nominal: t.nominal,
+        catatan: tf?.keterangan ? `Transfer dari ${rekName}: ${tf.keterangan}` : `Transfer dari ${rekName}`
+      });
+    } else {
+      const isMasuk = ['Pemasukan', 'Titipan', 'Pengembalian'].includes(t.tipe);
+      ledgerRows.push({
+        tanggal: t.tanggal,
+        rekening: rekName,
+        jenis: isMasuk ? "Masuk" : "Keluar",
+        nominal: t.nominal,
+        catatan: t.keterangan || '-'
+      });
+    }
+  }
+
+  // Sort chronologically
+  ledgerRows.sort((a, b) => a.tanggal.getTime() - b.tanggal.getTime());
+
+  // Compute running balance starting from the total initial balance
+  let currentSaldo = rekenings.reduce((acc, curr) => acc + curr.saldoAwal, 0);
+  
+  const ledgerData = ledgerRows.map(row => {
+    if (row.jenis === "Masuk") {
+      currentSaldo += row.nominal;
+    } else {
+      currentSaldo -= row.nominal;
+    }
+    
+    const dateObj = row.tanggal;
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    const dateFormatted = `${day}/${month}/${year}`;
+    
+    return {
+      tanggal: dateFormatted,
+      rekening: row.rekening,
+      jenis: row.jenis,
+      nominal: row.nominal,
+      catatan: row.catatan,
+      saldo: currentSaldo
+    };
   });
 
   const totalAset = rekeningBalances.filter(r => r.jenis === 'Titipan').reduce((acc, curr) => acc + curr.balance, 0); 
@@ -51,8 +128,9 @@ export default async function ReportPage() {
         
         {/* Export Buttons */}
         <div className="md:w-1/2">
-          <ExportButtons data={rekeningBalances} />
+          <ExportButtons data={ledgerData} />
         </div>
+
 
         <div className="md:grid md:grid-cols-2 md:gap-8">
           {/* Ringkasan */}
