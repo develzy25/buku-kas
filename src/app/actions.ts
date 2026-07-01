@@ -1,6 +1,5 @@
 "use server";
 
-export const runtime = 'edge';
 import { getDb } from "@/db";
 import { transaksi, transfer, users, rekening } from "@/db/schema";
 import { revalidatePath } from "next/cache";
