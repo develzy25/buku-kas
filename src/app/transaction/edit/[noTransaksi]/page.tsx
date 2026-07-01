@@ -4,7 +4,7 @@ import { getDb } from "@/db";
 import { rekening, kategori, transaksi, transfer } from "@/db/schema";
 import TransactionForm from "@/components/TransactionForm";
 import { updateTransaction } from "@/app/actions";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 
 export default async function EditTransactionPage(
@@ -14,8 +14,6 @@ export default async function EditTransactionPage(
   const decodeNoTransaksi = decodeURIComponent(params.noTransaksi);
   
   const rekenings = await getDb().select().from(rekening);
-  const kategoris = await getDb().select().from(kategori);
-
   const trxList = await getDb().select().from(transaksi).where(eq(transaksi.noTransaksi, decodeNoTransaksi));
   
   if (trxList.length === 0) {
@@ -24,6 +22,8 @@ export default async function EditTransactionPage(
 
   const trx = trxList[0];
   const isTransfer = trx.tipe === 'Transfer';
+  
+  const kategoris = await getDb().select().from(kategori).where(and(eq(kategori.isActive, true), eq(kategori.tipe, trx.tipe)));
   
   const defaultValues: Record<string, string | number | undefined> = {
     noTransaksi: trx.noTransaksi,

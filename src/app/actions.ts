@@ -1,7 +1,7 @@
 "use server";
 
 import { getDb } from "@/db";
-import { transaksi, transfer, users, rekening } from "@/db/schema";
+import { transaksi, transfer, users, rekening, kategori } from "@/db/schema";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
@@ -235,5 +235,49 @@ export async function resetAllData() {
   } catch (error: unknown) {
     const err = error as Error;
     return { success: false, error: err.message };
+  }
+}
+export async function createKategori(formData: FormData) {
+  try {
+    const namaKategori = formData.get('namaKategori') as string;
+    const tipe = formData.get('tipe') as string;
+    await getDb().insert(kategori).values({
+      namaKategori,
+      tipe,
+      isDefault: false,
+      isActive: true,
+    });
+    revalidatePath('/kategori');
+    revalidatePath('/transaction/income');
+    revalidatePath('/transaction/expense');
+    return { success: true };
+  } catch (error: unknown) {
+    return { success: false, error: (error as Error).message };
+  }
+}
+
+export async function toggleKategoriActive(id: number, currentStatus: boolean) {
+  try {
+    await getDb().update(kategori).set({ isActive: !currentStatus }).where(eq(kategori.id, id));
+    revalidatePath('/kategori');
+    revalidatePath('/transaction/income');
+    revalidatePath('/transaction/expense');
+    return { success: true };
+  } catch (error: unknown) {
+    return { success: false, error: (error as Error).message };
+  }
+}
+
+export async function deleteKategori(id: number) {
+  try {
+    const trxList = await getDb().select().from(transaksi).where(eq(transaksi.kategoriId, id));
+    if (trxList.length > 0) {
+      return { success: false, error: 'Kategori tidak bisa dihapus karena masih digunakan di transaksi.' };
+    }
+    await getDb().delete(kategori).where(eq(kategori.id, id));
+    revalidatePath('/kategori');
+    return { success: true };
+  } catch (error: unknown) {
+    return { success: false, error: (error as Error).message };
   }
 }

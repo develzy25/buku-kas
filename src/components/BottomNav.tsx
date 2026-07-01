@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from "@fortawesome/free-solid-svg-icons/faHome";
 import { faList } from "@fortawesome/free-solid-svg-icons/faList";
 import { faChartPie } from "@fortawesome/free-solid-svg-icons/faChartPie";
+import { faTags } from "@fortawesome/free-solid-svg-icons/faTags";
 import { faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons/faFileInvoiceDollar";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 
@@ -15,6 +16,7 @@ export default function BottomNav() {
     { href: '/', icon: faHome, label: 'Beranda' },
     { href: '/history', icon: faList, label: 'Riwayat' },
     { href: '/chart', icon: faChartPie, label: 'Grafik' },
+    { href: '/kategori', icon: faTags, label: 'Kategori' },
     { href: '/report', icon: faFileInvoiceDollar, label: 'Laporan' },
     { href: '/profile', icon: faUser, label: 'Profil' },
   ];
