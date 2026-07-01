@@ -3,14 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
 import { deleteTransaction } from "@/app/actions";
-import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
 export default function TransactionActions({ noTransaksi }: { noTransaksi: string }) {
   const router = useRouter();
 
   const handleDelete = async () => {
-    const result = await Swal.fire({
+    const result = await (await import('sweetalert2')).default.fire({
       title: 'Hapus Transaksi?',
       text: "Data yang dihapus tidak dapat dikembalikan!",
       icon: 'warning',
@@ -25,7 +24,7 @@ export default function TransactionActions({ noTransaksi }: { noTransaksi: strin
       try {
         const res = await deleteTransaction(noTransaksi);
         if (res.success) {
-          Swal.fire({
+          (await import('sweetalert2')).default.fire({
             icon: 'success',
             title: 'Terhapus!',
             text: 'Transaksi berhasil dihapus.',
@@ -37,7 +36,7 @@ export default function TransactionActions({ noTransaksi }: { noTransaksi: strin
         }
       } catch (err: unknown) {
         const error = err as Error;
-        Swal.fire('Gagal', error.message || 'Gagal menghapus transaksi', 'error');
+        (await import('sweetalert2')).default.fire('Gagal', error.message || 'Gagal menghapus transaksi', 'error');
       }
     }
   };

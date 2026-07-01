@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { deleteRekening } from "@/app/actions";
-import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
@@ -11,7 +10,7 @@ export default function RekeningList({ initialData }: { initialData: { id: numbe
   const [loadingId, setLoadingId] = useState<number | null>(null);
 
   const handleDelete = async (id: number, nama: string) => {
-    const result = await Swal.fire({
+    const result = await (await import('sweetalert2')).default.fire({
       title: `Hapus ${nama}?`,
       text: "Jika rekening ini sudah memiliki transaksi, penghapusan akan ditolak.",
       icon: 'warning',
@@ -27,13 +26,13 @@ export default function RekeningList({ initialData }: { initialData: { id: numbe
       try {
         const res = await deleteRekening(id);
         if (res.success) {
-          Swal.fire('Terhapus!', 'Rekening berhasil dihapus.', 'success');
+          (await import('sweetalert2')).default.fire('Terhapus!', 'Rekening berhasil dihapus.', 'success');
         } else {
           throw new Error(res.error);
         }
       } catch (err: unknown) {
         const error = err as Error;
-        Swal.fire('Gagal', error.message || 'Gagal menghapus rekening', 'error');
+        (await import('sweetalert2')).default.fire('Gagal', error.message || 'Gagal menghapus rekening', 'error');
       } finally {
         setLoadingId(null);
       }

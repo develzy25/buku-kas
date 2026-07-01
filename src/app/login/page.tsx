@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons/faLock";
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 import { faSignInAlt } from "@fortawesome/free-solid-svg-icons/faSignInAlt";
-import Swal from "sweetalert2";
 import ModernInput from "@/components/ui/ModernInput";
 import ModernButton from "@/components/ui/ModernButton";
 
@@ -22,7 +21,7 @@ export default function LoginPage() {
     try {
       const res = await loginAction(formData);
       if (res?.success) {
-        Swal.fire({
+        (await import('sweetalert2')).default.fire({
           icon: 'success',
           title: 'Login Berhasil',
           timer: 1500,
@@ -36,7 +35,7 @@ export default function LoginPage() {
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Terjadi kesalahan";
-      Swal.fire({
+      (await import('sweetalert2')).default.fire({
         icon: 'error',
         title: 'Gagal',
         text: errorMessage,

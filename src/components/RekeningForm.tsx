@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { createRekening } from "@/app/actions";
-import Swal from "sweetalert2";
 import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
 import { faWallet } from "@fortawesome/free-solid-svg-icons/faWallet";
 import { faTags } from "@fortawesome/free-solid-svg-icons/faTags";
@@ -20,7 +19,7 @@ export default function RekeningForm() {
     try {
       const res = await createRekening(formData);
       if (res.success) {
-        Swal.fire({
+        (await import('sweetalert2')).default.fire({
           icon: 'success',
           title: 'Tersimpan',
           text: 'Rekening baru berhasil ditambahkan!',
@@ -33,7 +32,7 @@ export default function RekeningForm() {
       }
     } catch (err: unknown) {
       const error = err as Error;
-      Swal.fire('Gagal', error.message || 'Gagal menambahkan rekening', 'error');
+      (await import('sweetalert2')).default.fire('Gagal', error.message || 'Gagal menambahkan rekening', 'error');
     } finally {
       setLoading(false);
     }

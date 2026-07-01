@@ -10,7 +10,7 @@ import { faTags } from "@fortawesome/free-solid-svg-icons/faTags";
 import { faBuilding } from "@fortawesome/free-solid-svg-icons/faBuilding";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
 import Link from "next/link";
-import Swal from "sweetalert2";
+
 import ModernInput from "./ui/ModernInput";
 import ModernSelect from "./ui/ModernSelect";
 import ModernButton from "./ui/ModernButton";
@@ -52,7 +52,7 @@ export default function TransactionForm({
     try {
       const res = await submitAction(formData);
       if (res?.success) {
-        Swal.fire({
+        (await import('sweetalert2')).default.fire({
           icon: 'success',
           title: 'Berhasil',
           text: 'Transaksi berhasil disimpan',
@@ -67,7 +67,7 @@ export default function TransactionForm({
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : String(err);
-      Swal.fire({
+      (await import('sweetalert2')).default.fire({
         icon: 'error',
         title: 'Gagal',
         text: errorMessage,

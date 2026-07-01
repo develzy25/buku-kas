@@ -5,7 +5,6 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCi
 import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
 import { faShieldAlt } from "@fortawesome/free-solid-svg-icons/faShieldAlt";
 import Link from "next/link";
-import Swal from "sweetalert2";
 import { resetAllData } from "@/app/actions";
 import { useRouter } from "next/navigation";
 import ModernButton from "@/components/ui/ModernButton";
@@ -14,7 +13,7 @@ export default function ProfilePage() {
   const router = useRouter();
 
   const handleReset = async () => {
-    const result = await Swal.fire({
+    const result = await (await import('sweetalert2')).default.fire({
       title: 'Hapus Seluruh Data?',
       text: "PERINGATAN: Semua riwayat transaksi akan dihapus secara permanen. Rekening tidak akan dihapus. Anda yakin?",
       icon: 'warning',
@@ -29,7 +28,7 @@ export default function ProfilePage() {
       try {
         const res = await resetAllData();
         if (res.success) {
-          Swal.fire('Berhasil!', 'Semua transaksi telah dihapus.', 'success').then(() => {
+          (await import('sweetalert2')).default.fire('Berhasil!', 'Semua transaksi telah dihapus.', 'success').then(() => {
             router.push('/');
           });
         } else {
@@ -37,7 +36,7 @@ export default function ProfilePage() {
         }
       } catch (err: unknown) {
         const error = err as Error;
-        Swal.fire('Gagal', error.message || 'Terjadi kesalahan saat menghapus data.', 'error');
+        (await import('sweetalert2')).default.fire('Gagal', error.message || 'Terjadi kesalahan saat menghapus data.', 'error');
       }
     }
   };
