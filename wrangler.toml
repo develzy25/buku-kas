@@ -1,7 +1,7 @@
 name = "buku-kas"
 compatibility_date = "2024-06-30"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".vercel/output/static"
+pages_build_output_dir = ".open-next/cloudflare"
 
 
 [[d1_databases]]

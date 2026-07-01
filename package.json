@@ -26,7 +26,6 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.13.16",
     "@cloudflare/workers-types": "^4.20260630.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
