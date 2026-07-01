@@ -1,7 +1,8 @@
 export const runtime = 'edge';
 import { getDb } from "@/db";
 import { transaksi, kategori } from "@/db/schema";
-import { PieChart } from "@/components/ChartWrapper";
+import dynamic from 'next/dynamic';
+const PieChart = dynamic(() => import("@/components/ChartWrapper").then(mod => mod.PieChart), { ssr: false });
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartPie } from "@fortawesome/free-solid-svg-icons";
 
