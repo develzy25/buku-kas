@@ -1,4 +1,5 @@
-export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 import { getDb } from "@/db";
 import { rekening, kategori } from "@/db/schema";
 import TransactionForm from "@/components/TransactionForm";
@@ -38,3 +39,4 @@ export default async function TransactionPage({ params }: { params: Promise<{ ty
     />
   );
 }
+

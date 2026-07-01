@@ -1,4 +1,5 @@
-export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 import { getDb } from "@/db";
 import { transaksi, kategori } from "@/db/schema";
 import { PieChart } from "@/components/ChartWrapperDynamic";
@@ -116,3 +117,4 @@ export default async function ChartPage() {
     </main>
   );
 }
+

@@ -1,4 +1,5 @@
-export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 import { getDb } from "@/db";
 import { rekening, transaksi, transfer } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -198,3 +199,4 @@ export default async function ReportPage() {
     </main>
   );
 }
+

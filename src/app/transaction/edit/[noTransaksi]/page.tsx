@@ -1,4 +1,5 @@
-export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 import { getDb } from "@/db";
 import { rekening, kategori, transaksi, transfer } from "@/db/schema";
 import TransactionForm from "@/components/TransactionForm";
@@ -56,3 +57,4 @@ export default async function EditTransactionPage(
     />
   );
 }
+

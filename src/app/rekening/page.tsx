@@ -1,4 +1,4 @@
-export const runtime = 'edge';
+
 import { getDb } from "@/db";
 import { rekening } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,3 +46,4 @@ export default async function RekeningPage() {
     </main>
   );
 }
+
