@@ -3,8 +3,7 @@ import { getDb } from "@/db";
 import { rekening, transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPiggyBank, faHandHoldingUsd, faWallet } from "@fortawesome/free-solid-svg-icons";
-import dynamic from 'next/dynamic';
-const ExportButtons = dynamic(() => import("@/components/ExportButtons"), { ssr: false });
+import ExportButtons from "@/components/ExportButtons";
 
 export default async function ReportPage() {
   const rekenings = await getDb().select().from(rekening);
