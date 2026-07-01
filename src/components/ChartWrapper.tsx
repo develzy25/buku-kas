@@ -7,13 +7,13 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 import type { ChartData } from 'chart.js';
 
 export function PieChart({ data }: { data: ChartData<'pie'> }) {
-  return <Pie data={data as any} />;
+  return <Pie data={data} />;
 }
 
 export function BarChart({ data }: { data: ChartData<'bar'> }) {
-  return <Bar data={data as any} />;
+  return <Bar data={data} />;
 }
 
 export function LineChart({ data }: { data: ChartData<'line'> }) {
-  return <Line data={data as any} />;
+  return <Line data={data} />;
 }

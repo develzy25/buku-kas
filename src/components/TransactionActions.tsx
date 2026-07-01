@@ -34,8 +34,9 @@ export default function TransactionActions({ noTransaksi }: { noTransaksi: strin
         } else {
           throw new Error(res.error);
         }
-      } catch (err: any) {
-        Swal.fire('Gagal', err.message || 'Gagal menghapus transaksi', 'error');
+      } catch (err: unknown) {
+        const error = err as Error;
+        Swal.fire('Gagal', error.message || 'Gagal menghapus transaksi', 'error');
       }
     }
   };
