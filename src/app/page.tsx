@@ -2,7 +2,12 @@ export const runtime = 'edge';
 import { getDb } from "@/db";
 import { rekening, transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWallet, faPiggyBank, faHandHoldingUsd, faArrowUp, faArrowDown, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faWallet } from "@fortawesome/free-solid-svg-icons/faWallet";
+import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
+import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons/faHandHoldingUsd";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons/faArrowUp";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons/faArrowDown";
+import { faHistory } from "@fortawesome/free-solid-svg-icons/faHistory";
 import Link from "next/link";
 
 export default async function Dashboard() {

@@ -2,7 +2,10 @@ export const runtime = 'edge';
 import { getDb } from "@/db";
 import { transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown, faArrowUp, faExchangeAlt, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons/faArrowUp";
+import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons/faExchangeAlt";
+import { faFilter } from "@fortawesome/free-solid-svg-icons/faFilter";
 import { desc } from "drizzle-orm";
 import TransactionActions from "@/components/TransactionActions";
 

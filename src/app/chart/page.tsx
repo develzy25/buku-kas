@@ -1,9 +1,9 @@
 export const runtime = 'edge';
 import { getDb } from "@/db";
 import { transaksi, kategori } from "@/db/schema";
-import { PieChart } from "@/components/ChartWrapper";
+import { PieChart } from "@/components/ChartWrapperDynamic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChartPie } from "@fortawesome/free-solid-svg-icons";
+import { faChartPie } from "@fortawesome/free-solid-svg-icons/faChartPie";
 
 export default async function ChartPage() {
   const transaksis = await getDb().select().from(transaksi);

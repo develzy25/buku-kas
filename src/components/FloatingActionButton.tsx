@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faArrowDown, faArrowUp, faExchangeAlt, faPiggyBank, faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons/faArrowDown";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons/faArrowUp";
+import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons/faExchangeAlt";
+import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
+import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons/faHandHoldingUsd";
 import Link from "next/link";
 
 export default function FloatingActionButton() {

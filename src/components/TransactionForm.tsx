@@ -2,7 +2,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faSave, faCalendarAlt, faMoneyBillWave, faTags, faBuilding, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons/faCalendarAlt";
+import { faMoneyBillWave } from "@fortawesome/free-solid-svg-icons/faMoneyBillWave";
+import { faTags } from "@fortawesome/free-solid-svg-icons/faTags";
+import { faBuilding } from "@fortawesome/free-solid-svg-icons/faBuilding";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons/faInfoCircle";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import ModernInput from "./ui/ModernInput";

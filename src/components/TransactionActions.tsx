@@ -1,6 +1,7 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faEdit } from "@fortawesome/free-solid-svg-icons/faEdit";
 import { deleteTransaction } from "@/app/actions";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";

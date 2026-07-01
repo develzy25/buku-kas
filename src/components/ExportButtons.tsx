@@ -1,6 +1,7 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExcel, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons/faFileExcel";
+import { faPrint } from "@fortawesome/free-solid-svg-icons/faPrint";
 
 export default function ExportButtons({ data }: { data: { id: number; namaRekening: string; jenis: string; balance: number }[] }) {
   const exportCSV = () => {

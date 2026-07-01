@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { createRekening } from "@/app/actions";
 import Swal from "sweetalert2";
-import { faSave, faWallet, faTags } from "@fortawesome/free-solid-svg-icons";
+import { faSave } from "@fortawesome/free-solid-svg-icons/faSave";
+import { faWallet } from "@fortawesome/free-solid-svg-icons/faWallet";
+import { faTags } from "@fortawesome/free-solid-svg-icons/faTags";
 import ModernInput from "./ui/ModernInput";
 import ModernSelect from "./ui/ModernSelect";
 import ModernButton from "./ui/ModernButton";

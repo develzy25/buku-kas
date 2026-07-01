@@ -2,7 +2,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faList, faChartPie, faFileInvoiceDollar, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from "@fortawesome/free-solid-svg-icons/faHome";
+import { faList } from "@fortawesome/free-solid-svg-icons/faList";
+import { faChartPie } from "@fortawesome/free-solid-svg-icons/faChartPie";
+import { faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons/faFileInvoiceDollar";
+import { faUser } from "@fortawesome/free-solid-svg-icons/faUser";
 
 export default function BottomNav() {
   const pathname = usePathname();

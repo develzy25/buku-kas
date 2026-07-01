@@ -2,7 +2,8 @@
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 
 interface ModernSelectProps {
   label: string;

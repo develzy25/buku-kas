@@ -3,7 +3,9 @@ import { useState } from "react";
 import { deleteRekening } from "@/app/actions";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPiggyBank, faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
+import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons/faHandHoldingUsd";
 
 export default function RekeningList({ initialData }: { initialData: { id: number; namaRekening: string; jenis: string }[] }) {
   const [loadingId, setLoadingId] = useState<number | null>(null);

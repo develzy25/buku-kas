@@ -1,6 +1,9 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faQuestionCircle, faTrash, faShieldAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCog } from "@fortawesome/free-solid-svg-icons/faCog";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons/faQuestionCircle";
+import { faTrash } from "@fortawesome/free-solid-svg-icons/faTrash";
+import { faShieldAlt } from "@fortawesome/free-solid-svg-icons/faShieldAlt";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { resetAllData } from "@/app/actions";

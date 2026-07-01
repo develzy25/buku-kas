@@ -2,8 +2,10 @@ export const runtime = 'edge';
 import { getDb } from "@/db";
 import { rekening, transaksi } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPiggyBank, faHandHoldingUsd, faWallet } from "@fortawesome/free-solid-svg-icons";
-import ExportButtons from "@/components/ExportButtons";
+import { faPiggyBank } from "@fortawesome/free-solid-svg-icons/faPiggyBank";
+import { faHandHoldingUsd } from "@fortawesome/free-solid-svg-icons/faHandHoldingUsd";
+import { faWallet } from "@fortawesome/free-solid-svg-icons/faWallet";
+import ExportButtons from "@/components/ExportButtonsDynamic";
 
 export default async function ReportPage() {
   const rekenings = await getDb().select().from(rekening);

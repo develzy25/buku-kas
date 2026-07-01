@@ -2,7 +2,8 @@ export const runtime = 'edge';
 import { getDb } from "@/db";
 import { rekening } from "@/db/schema";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons/faPlus";
+import { faBuilding } from "@fortawesome/free-solid-svg-icons/faBuilding";
 import RekeningForm from "@/components/RekeningForm";
 import RekeningList from "@/components/RekeningList"; // refresh imports
 
